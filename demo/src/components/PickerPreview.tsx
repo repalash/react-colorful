@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import React, { useState } from "react";
+import React, { JSX, useState } from "react";
 import Frame from "react-frame-component";
 import { HexColorInput } from "../../../src";
 import { ColorPickerBaseProps, AnyColor } from "../../../src/types";

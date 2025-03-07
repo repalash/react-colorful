@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { JSX, useCallback } from "react";
 import { ColorInputBaseProps } from "../types";
 
 import { validHex } from "../utils/validate";
