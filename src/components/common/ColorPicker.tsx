@@ -15,6 +15,7 @@ interface Props<T extends AnyColor> extends Partial<ColorPickerBaseProps<T>> {
 export const ColorPicker = <T extends AnyColor>({
   className,
   colorModel,
+  captureEvents,
   color = colorModel.defaultColor,
   onChange,
   ...rest
@@ -28,8 +29,13 @@ export const ColorPicker = <T extends AnyColor>({
 
   return (
     <div {...rest} ref={nodeRef} className={nodeClassName}>
-      <Saturation hsva={hsva} onChange={updateHsva} />
-      <Hue hue={hsva.h} onChange={updateHsva} className="react-colorful__last-control" />
+      <Saturation hsva={hsva} onChange={updateHsva} captureEvents={captureEvents} />
+      <Hue
+        hue={hsva.h}
+        onChange={updateHsva}
+        className="react-colorful__last-control"
+        captureEvents={captureEvents}
+      />
     </div>
   );
 };

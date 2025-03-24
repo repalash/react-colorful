@@ -11,11 +11,12 @@ import { HsvaColor } from "../../types";
 
 interface Props {
   className?: string;
+  captureEvents?: boolean;
   hsva: HsvaColor;
   onChange: (newAlpha: { a: number }) => void;
 }
 
-export const Alpha = ({ className, hsva, onChange }: Props): JSX.Element => {
+export const Alpha = ({ className, hsva, onChange, captureEvents }: Props): JSX.Element => {
   const handleMove = (interaction: Interaction) => {
     onChange({ a: interaction.left });
   };
@@ -43,6 +44,7 @@ export const Alpha = ({ className, hsva, onChange }: Props): JSX.Element => {
       <Interactive
         onMove={handleMove}
         onKey={handleKey}
+        captureEvents={captureEvents}
         aria-label="Alpha"
         aria-valuetext={`${ariaValue}%`}
         aria-valuenow={ariaValue}

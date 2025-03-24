@@ -7,11 +7,12 @@ import { clamp } from "../../utils/clamp";
 import { round } from "../../utils/round";
 
 interface Props {
+  captureEvents?: boolean;
   hsva: HsvaColor;
   onChange: (newColor: { s: number; v: number }) => void;
 }
 
-const SaturationBase = ({ hsva, onChange }: Props) => {
+const SaturationBase = ({ hsva, onChange, captureEvents }: Props) => {
   const handleMove = (interaction: Interaction) => {
     onChange({
       s: interaction.left * 100,
@@ -36,6 +37,7 @@ const SaturationBase = ({ hsva, onChange }: Props) => {
       <Interactive
         onMove={handleMove}
         onKey={handleKey}
+        captureEvents={captureEvents}
         aria-label="Color"
         aria-valuetext={`Saturation ${round(hsva.s)}%, Brightness ${round(hsva.v)}%`}
       >

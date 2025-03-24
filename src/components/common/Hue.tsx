@@ -10,11 +10,12 @@ import { round } from "../../utils/round";
 
 interface Props {
   className?: string;
+  captureEvents?: boolean;
   hue: number;
   onChange: (newHue: { h: number }) => void;
 }
 
-const HueBase = ({ className, hue, onChange }: Props) => {
+const HueBase = ({ className, hue, onChange, captureEvents }: Props) => {
   const handleMove = (interaction: Interaction) => {
     onChange({ h: 360 * interaction.left });
   };
@@ -33,6 +34,7 @@ const HueBase = ({ className, hue, onChange }: Props) => {
       <Interactive
         onMove={handleMove}
         onKey={handleKey}
+        captureEvents={captureEvents}
         aria-label="Hue"
         aria-valuenow={round(hue)}
         aria-valuemax="360"

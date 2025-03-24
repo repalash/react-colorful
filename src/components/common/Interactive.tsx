@@ -57,10 +57,11 @@ const isInvalid = (event: MouseEvent | TouchEvent, hasTouch: boolean): boolean =
 interface Props {
   onMove: (interaction: Interaction) => void;
   onKey: (offset: Interaction) => void;
+  captureEvents?: boolean;
   children: React.ReactNode;
 }
 
-const InteractiveBase = ({ onMove, onKey, ...rest }: Props) => {
+const InteractiveBase = ({ onMove, onKey, captureEvents = false, ...rest }: Props) => {
   const container = useRef<HTMLDivElement>(null);
   const onMoveCallback = useEventCallback<Interaction>(onMove);
   const onKeyCallback = useEventCallback<Interaction>(onKey);
@@ -86,6 +87,8 @@ const InteractiveBase = ({ onMove, onKey, ...rest }: Props) => {
       el.focus();
       onMoveCallback(getRelativePosition(el, nativeEvent, touchId.current));
       toggleDocumentEvents(true);
+
+      captureEvents && nativeEvent.stopPropagation();
     };
 
     const handleMove = (event: MouseEvent | TouchEvent) => {
@@ -136,7 +139,7 @@ const InteractiveBase = ({ onMove, onKey, ...rest }: Props) => {
     }
 
     return [handleMoveStart, handleKeyDown, toggleDocumentEvents];
-  }, [onKeyCallback, onMoveCallback]);
+  }, [captureEvents, onKeyCallback, onMoveCallback]);
 
   // Remove window event listeners before unmounting
   useEffect(() => toggleDocumentEvents, [toggleDocumentEvents]);
@@ -144,11 +147,14 @@ const InteractiveBase = ({ onMove, onKey, ...rest }: Props) => {
   return (
     <div
       {...rest}
-      onTouchStart={handleMoveStart}
-      onMouseDown={handleMoveStart}
+      onTouchStartCapture={captureEvents ? handleMoveStart : undefined}
+      onMouseDownCapture={captureEvents ? handleMoveStart : undefined}
+      onTouchStart={captureEvents ? undefined : handleMoveStart}
+      onMouseDown={captureEvents ? undefined : handleMoveStart}
       className="react-colorful__interactive"
       ref={container}
-      onKeyDown={handleKeyDown}
+      onKeyDownCapture={captureEvents ? handleKeyDown : undefined}
+      onKeyDown={captureEvents ? undefined : handleKeyDown}
       tabIndex={0}
       role="slider"
     />
